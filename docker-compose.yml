@@ -1,13 +1,19 @@
 services:
   mantisbt:
-    image: xlrl/mantisbt:latest
+    build:  # Mudança aqui para construir a partir do Dockerfile
+      context: .
+      dockerfile: Dockerfile  # O nome do seu Dockerfile, se não for o padrão
     environment:
       MANTIS_TIMEZONE: America/Sao_Paulo
       MANTIS_ENABLE_ADMIN: '1'
+      MANTISBT_DB_HOST: mysql  # Adicione as configurações do banco de dados
+      MANTISBT_DB_NAME: bugtracker
+      MANTISBT_DB_USER: mantisbt
+      MANTISBT_DB_PASSWORD: root
     depends_on:
       - mysql
     ports:
-      - "8989:8989"
+      - "8989:8989"  # Mapeie a porta 80 do contêiner para a porta 8989
     volumes:
       - ./config:/var/www/html/config
       - ./custom:/var/www/html/custom

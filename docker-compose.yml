@@ -1,0 +1,25 @@
+services:
+  mantisbt:
+    image: xlrl/mantisbt:latest
+    environment:
+      MANTIS_TIMEZONE: America/Sao_Paulo
+      MANTIS_ENABLE_ADMIN: '1'
+    depends_on:
+      - mysql
+    ports:
+      - "8989:8989"
+    volumes:
+      - ./config:/var/www/html/config
+      - ./custom:/var/www/html/custom
+    restart: always
+
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bugtracker
+      MYSQL_USER: mantisbt
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./mysql:/var/lib/mysql
+    restart: always
